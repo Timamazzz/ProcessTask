@@ -17,7 +17,6 @@ __pycache__/
 # Local data
 db.sqlite3
 db.sqlite3-journal
-media/
 
 # Ignore .env file containing your secrets
 .env
