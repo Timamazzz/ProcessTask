@@ -38,3 +38,17 @@ class ProcessUpdateSerializer(ProcessSerializer):
         model = Process
         fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
                   'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'data']
+
+    def update(self, instance, validated_data):
+        data_fields = validated_data.pop('data', {})
+
+        data_serializer = ProcessDataSerializer(instance, data_fields)
+        if data_serializer.is_valid():
+            data_serializer.save()
+
+        for field_name, field_value in validated_data.items():
+            setattr(instance, field_name, field_value)
+
+        instance.save()
+
+        return super(ProcessUpdateSerializer, self).update(instance, validated_data)
