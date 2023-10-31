@@ -75,7 +75,9 @@ class LifeSituation(models.Model):
 
 class Service(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название услуги", blank=True, null=True, )
-    service_type = models.CharField(max_length=10, choices=SERVICE_TYPES, verbose_name="Тип услуги", blank=True,
+    service_type = models.CharField(max_length=10,
+                                    choices=[(type.name, type.value) for type in SERVICE_TYPES],
+                                    verbose_name="Тип услуги", blank=True,
                                     null=True, )
     regulating_act = models.CharField(max_length=255, verbose_name="Регулирующий акт", blank=True, null=True, )
     lifesituation = models.ForeignKey(LifeSituation, on_delete=models.CASCADE, verbose_name="Жизненная ситуация",

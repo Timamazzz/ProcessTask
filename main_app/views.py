@@ -15,6 +15,7 @@ import random
 import string
 from post_office import mail
 from django.conf import settings
+from django.db.models import Q
 
 
 @api_view(['POST'])
