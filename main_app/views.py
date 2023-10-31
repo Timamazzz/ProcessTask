@@ -24,7 +24,7 @@ def reset_password(request):
         try:
             user = CustomUser.objects.get(email=email)
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
-            user.password = make_password(new_password)
+            user.set_password(new_password)
             user.save()
 
             mail.send(
