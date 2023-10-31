@@ -17,6 +17,29 @@ from post_office import mail
 from django.conf import settings
 
 
+@api_view(['POST'])
+def reset_password(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        try:
+            user = User.objects.get(email=email)
+            new_password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
+            user.password = make_password(new_password)
+            user.save()
+
+            mail.send(
+                [email],
+                settings.DEFAULT_FROM_EMAIL,
+                subject='Сброс пароля',
+                message=f'Ваш новый пароль: {new_password}',
+                html_message=f'Ваш новый пароль: {new_password}',
+                priority='now')
+
+            return Response({'message': 'Новый пароль отправлен на вашу почту.'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'Пользователь с такой почтой не найден.'}, status=status.HTTP_404_NOT_FOUND)
+
+
 class UserViewSet(CustomModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
@@ -24,25 +47,6 @@ class UserViewSet(CustomModelViewSet):
         'retrieve': UserRetrieveSerializer,
     }
     permission_classes = [permissions.IsAuthenticated]
-
-    @action(detail=True, methods=['post'])
-    def reset_password(self, request, pk=None):
-        user = self.get_object()
-        email = request.data.get('email')
-        new_password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
-
-        user.set_password(new_password)
-        user.save()
-
-        mail.send(
-            email,
-            settings.DEFAULT_FROM_EMAIL,
-            subject='Сброс пароля',
-            message=f'Ваш новый пароль: {new_password}',
-            html_message=f'Ваш новый пароль: {new_password}',
-            priority='now')
-
-        return Response({}, status=status.HTTP_200_OK)
 
 
 class LifeSituationViewSet(CustomModelViewSet):
