@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from main_app.models import Process
+from main_app.utils import generate_identifier
 
 
 class ProcessSerializer(serializers.ModelSerializer):
@@ -36,6 +37,16 @@ class ProcessCreateSerializer(ProcessSerializer):
         fields = ['name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
                   'department', 'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'identifier']
 
+    def create(self, validated_data):
+        custom_identifier = validated_data.get('custom_identifier', None)
+        if custom_identifier is not None:
+            validated_data['identifier'] = generate_identifier(user=request.user)
+
+        process = Process(**validated_data)
+        process.save()
+
+        return process
+
 
 class ProcessUpdateSerializer(ProcessSerializer):
     process_data = ProcessDataSerializer(allow_null=True)
@@ -48,11 +59,13 @@ class ProcessUpdateSerializer(ProcessSerializer):
 
     def update(self, instance, validated_data):
         data_fields = validated_data.pop('process_data', {})
+
         if data_fields:
-            data_serializer = ProcessDataSerializer(instance.process_data, data_fields)
-            if data_serializer.is_valid():
-                data_serializer.save()
+            for field_name, field_value in data_fields.items():
+                setattr(instance, field_name, field_value)
+
         for field_name, field_value in validated_data.items():
             setattr(instance, field_name, field_value)
+
         instance.save()
         return super(ProcessUpdateSerializer, self).update(instance, validated_data)
