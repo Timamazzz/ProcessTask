@@ -24,12 +24,7 @@ class ProcessRetrieveSerializer(ProcessSerializer):
                   'process_data']
 
     def to_representation(self, instance):
-        process_data = {
-            'client_value': instance.client_value,
-            'input_data': instance.input_data,
-            'output_data': instance.output_data,
-            'related_processes': instance.related_processes
-        }
+        process_data = ProcessDataSerializer(instance).data
         data['process_data'] = process_data
         return data
 
