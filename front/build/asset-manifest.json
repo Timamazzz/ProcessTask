@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e7f245ce.css",
-    "main.js": "/static/js/main.6cb44065.js",
+    "main.css": "/static/css/main.dbeeaed4.css",
+    "main.js": "/static/js/main.bc2ce97a.js",
     "static/media/golos-text_vf.woff": "/static/media/golos-text_vf.119e7f3bec340d7b0ae6.woff",
     "static/media/golos-text_vf.woff2": "/static/media/golos-text_vf.7863e1b7b32a69115b20.woff2",
     "static/media/golos-ui_vf.woff": "/static/media/golos-ui_vf.ecad2bfb97d46cccca0f.woff",
@@ -10,6 +10,7 @@
     "static/media/bikLogo.svg": "/static/media/bikLogo.b8458b3dafdb935e03efda920e8624c0.svg",
     "static/media/file.svg": "/static/media/file.5f87f5af72ca79e8dbe437a096517828.svg",
     "static/media/refreshRotate.svg": "/static/media/refreshRotate.a29e29d34596ac03220de01cbb4f0837.svg",
+    "static/media/file5svg.svg": "/static/media/file5svg.bcb26b0b35288cd85fbcf4aada4fca94.svg",
     "static/media/TrashOne.svg": "/static/media/TrashOne.319327f3b0f8396f1f8fcccb13edc0ce.svg",
     "static/media/geosIco.svg": "/static/media/geosIco.55d923263f8c8ef7caf244b319193df6.svg",
     "static/media/floppyCheckmark.svg": "/static/media/floppyCheckmark.d81b72160b14996c7d367c84c6ce865c.svg",
@@ -22,6 +23,7 @@
     "static/media/document-file-copy.svg": "/static/media/document-file-copy.82ba5fa0ec58a9e0e0254a551ea1caa6.svg",
     "static/media/logOut.svg": "/static/media/logOut.5b51c7b6cc33073ab3aa61d8d9f8b5f6.svg",
     "static/media/helpCircle.svg": "/static/media/helpCircle.926d239e6c52cdf585013d750d0bcd69.svg",
+    "static/media/monitor.svg": "/static/media/monitor.b3e486207518802073b3f8210ceb69d2.svg",
     "static/media/map.svg": "/static/media/map.b6da31865aa93dc410e554293a90bcf1.svg",
     "static/media/Filter.svg": "/static/media/Filter.95d18280847c22bd42b9fcb4584f1a99.svg",
     "static/media/edit.svg": "/static/media/edit.b980472ff23e5b3ec89393803622a44d.svg",
@@ -31,6 +33,7 @@
     "static/media/ArrowBackCol.svg": "/static/media/ArrowBackCol.28920261ad9c6571d2a2bb82921fc464.svg",
     "static/media/AlertCircle.svg": "/static/media/AlertCircle.dbceed86e91cc4e280c23f2c202d016c.svg",
     "static/media/plus-circle.svg": "/static/media/plus-circle.83285df7e4c862359698a7fa37d4a074.svg",
+    "static/media/user-right.svg": "/static/media/user-right.8ae822ab6cd8b4f315dfee5af0631e03.svg",
     "static/media/markerPin.svg": "/static/media/markerPin.ed8cc9c5aca8f674e700670948963945.svg",
     "static/media/Mark.svg": "/static/media/Mark.84e100cce0735ed6f72f394f0707f65f.svg",
     "static/media/CheckCircle.svg": "/static/media/CheckCircle.b23b0dfa8aadddc987cb59cb1089fe02.svg",
@@ -42,11 +45,11 @@
     "static/media/Checkmark.svg": "/static/media/Checkmark.22b149f639605294d50ac885571fcaae.svg",
     "static/media/xClosed.svg": "/static/media/xClosed.79054381498893733e4b05750b8abf4d.svg",
     "static/media/xClose.svg": "/static/media/xClose.da3a41c51bf0d46cdda0e2b32720f499.svg",
-    "main.e7f245ce.css.map": "/static/css/main.e7f245ce.css.map",
-    "main.6cb44065.js.map": "/static/js/main.6cb44065.js.map"
+    "main.dbeeaed4.css.map": "/static/css/main.dbeeaed4.css.map",
+    "main.bc2ce97a.js.map": "/static/js/main.bc2ce97a.js.map"
   },
   "entrypoints": [
-    "static/css/main.e7f245ce.css",
-    "static/js/main.6cb44065.js"
+    "static/css/main.dbeeaed4.css",
+    "static/js/main.bc2ce97a.js"
   ]
 }
