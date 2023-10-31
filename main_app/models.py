@@ -84,7 +84,7 @@ class Service(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
-        return self.name
+        return self.name or "service"
 
 
 class Process(models.Model):
