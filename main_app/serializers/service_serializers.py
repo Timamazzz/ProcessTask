@@ -20,8 +20,6 @@ class ServiceListSerializer(ServiceSerializer):
 
 
 class ServiceRetrieveSerializer(ServiceSerializer):
-    service_type = serializers.CharField(source='get_service_type_display', read_only=True, label="Тип")
-
     class Meta:
         model = Service
         fields = ['id', 'service_type', 'name', 'regulating_act']
