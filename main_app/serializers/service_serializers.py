@@ -12,8 +12,7 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class ServiceListSerializer(ServiceSerializer):
     processes = ProcessRetrieveSerializer(many=True, read_only=True)
-    service_type = serializers.ChoiceField(choices=[(type.name, type.value) for type in ServiceType], required=False,
-                                           label="Тип")
+    service_type = serializers.CharField(source='get_service_type_display', read_only=True, label="Тип")
 
     class Meta:
         model = Service
@@ -21,6 +20,8 @@ class ServiceListSerializer(ServiceSerializer):
 
 
 class ServiceRetrieveSerializer(ServiceSerializer):
+    service_type = serializers.CharField(source='get_service_type_display', read_only=True, label="Тип")
+
     class Meta:
         model = Service
         fields = ['id', 'service_type', 'name', 'regulating_act']
@@ -38,9 +39,6 @@ class ServiceCreateSerializer(ServiceSerializer):
 
 
 class ServiceUpdateSerializer(ServiceSerializer):
-    service_type = serializers.ChoiceField(choices=[(type.name, type.value) for type in ServiceType], required=False,
-                                           label="Тип")
-
     class Meta:
         model = Service
         fields = ['id', 'service_type', 'name', 'regulating_act']
