@@ -15,13 +15,13 @@ class ProcessDataSerializer(ProcessSerializer):
 
 
 class ProcessRetrieveSerializer(ProcessSerializer):
-    data = ProcessDataSerializer(allow_null=True)
+    process_data = ProcessDataSerializer(allow_null=True)
 
     class Meta:
         model = Process
         fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
                   'department', 'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'identifier',
-                  'data']
+                  'process_data']
 
 
 class ProcessCreateSerializer(ProcessSerializer):
@@ -32,12 +32,12 @@ class ProcessCreateSerializer(ProcessSerializer):
 
 
 class ProcessUpdateSerializer(ProcessSerializer):
-    data = ProcessDataSerializer(allow_null=True)
+    process_data = ProcessDataSerializer(allow_null=True)
 
     class Meta:
         model = Process
         fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
-                  'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'data']
+                  'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'process_data']
 
     def update(self, instance, validated_data):
         data_fields = validated_data.pop('data', {})
