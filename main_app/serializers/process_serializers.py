@@ -40,7 +40,7 @@ class ProcessUpdateSerializer(ProcessSerializer):
                   'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'process_data']
 
     def update(self, instance, validated_data):
-        data_fields = validated_data.pop('data', {})
+        data_fields = validated_data.pop('process_data', {})
 
         data_serializer = ProcessDataSerializer(instance, data_fields)
         if data_serializer.is_valid():
