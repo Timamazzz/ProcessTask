@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from enums import ServiceStatus, ServiceType
+from main_app.enums import ServiceStatus, ServiceType
 
 
 class Organization(models.Model):
