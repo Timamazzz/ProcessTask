@@ -23,6 +23,11 @@ class ProcessRetrieveSerializer(ProcessSerializer):
                   'department', 'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'identifier',
                   'process_data']
 
+    def to_representation(self, instance):
+        data = super(ProcessRetrieveSerializer, self).to_representation(instance)
+        data['process_data'] = ProcessDataSerializer(instance.process_data).data
+        return data
+
 
 class ProcessCreateSerializer(ProcessSerializer):
     class Meta:
@@ -36,19 +41,17 @@ class ProcessUpdateSerializer(ProcessSerializer):
 
     class Meta:
         model = Process
-        fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
+        fields = ['id', 'name', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
+                  'department',
                   'is_digital_format', 'is_non_digital_format', 'digital_format_link', 'process_data']
 
     def update(self, instance, validated_data):
         data_fields = validated_data.pop('process_data', {})
-
-        data_serializer = ProcessDataSerializer(instance, data_fields)
-        if data_serializer.is_valid():
-            data_serializer.save()
-
+        if data_fields:
+            data_serializer = ProcessDataSerializer(instance.process_data, data_fields)
+            if data_serializer.is_valid():
+                data_serializer.save()
         for field_name, field_value in validated_data.items():
             setattr(instance, field_name, field_value)
-
         instance.save()
-
         return super(ProcessUpdateSerializer, self).update(instance, validated_data)
