@@ -3,8 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-
-from main_app.enums import SERVICE_TYPES, SERVICE_STATUS_CHOICES, CLIENT_CHOICES, DIGITAL_FORMAT_CHOICES
+from enums import ServiceStatus, ServiceType
 
 
 class Organization(models.Model):
@@ -76,7 +75,7 @@ class LifeSituation(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название услуги", blank=True, null=True, )
     service_type = models.CharField(max_length=10,
-                                    choices=[(type.name, type.value) for type in SERVICE_TYPES],
+                                    choices=[(type.name, type.value) for type in ServiceType],
                                     verbose_name="Тип услуги", blank=True,
                                     null=True, )
     regulating_act = models.CharField(max_length=255, verbose_name="Регулирующий акт", blank=True, null=True, )
@@ -92,7 +91,8 @@ class Process(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название процесса", blank=True, null=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
-    status = models.CharField(max_length=20, choices=SERVICE_STATUS_CHOICES, default='in_queue', verbose_name="Статус",
+    status = models.CharField(max_length=20, choices=[(type.name, type.value) for type in ServiceStatus],
+                              default='in_queue', verbose_name="Статус",
                               blank=True, null=True)
     is_internal_client = models.BooleanField(default=False, verbose_name="Внутренний клиент", blank=True, null=True)
     is_external_client = models.BooleanField(default=False, verbose_name="Внешний клиент", blank=True, null=True)
