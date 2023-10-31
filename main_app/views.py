@@ -22,7 +22,7 @@ def reset_password(request):
     if request.method == 'POST':
         email = request.data.get('email')
         try:
-            user = User.objects.get(email=email)
+            user = CustomUser.objects.get(email=email)
             new_password = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(8))
             user.password = make_password(new_password)
             user.save()
@@ -36,7 +36,7 @@ def reset_password(request):
                 priority='now')
 
             return Response({'message': 'Новый пароль отправлен на вашу почту.'}, status=status.HTTP_200_OK)
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             return Response({'error': 'Пользователь с такой почтой не найден.'}, status=status.HTTP_404_NOT_FOUND)
 
 
