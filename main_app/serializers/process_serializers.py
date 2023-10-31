@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from main_app.models import Process
 from main_app.utils import generate_identifier
+from main_app.enums import ServiceStatus
 
 
 class ProcessSerializer(serializers.ModelSerializer):
@@ -32,6 +33,8 @@ class ProcessRetrieveSerializer(ProcessSerializer):
 
 
 class ProcessCreateSerializer(ProcessSerializer):
+    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ServiceStatus], required=False,
+                                     label="Статус")
     class Meta:
         model = Process
         fields = ['name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority',
@@ -50,6 +53,8 @@ class ProcessCreateSerializer(ProcessSerializer):
 
 class ProcessUpdateSerializer(ProcessSerializer):
     process_data = ProcessDataSerializer(allow_null=True)
+    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ServiceStatus], required=False,
+                                     label="Статус")
 
     class Meta:
         model = Process
