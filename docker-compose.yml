@@ -23,7 +23,7 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"
+      - "8100:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./front/build:/var/www/html
