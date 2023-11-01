@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from main_app.enums import ServiceStatus, ServiceType
+from main_app.enums import ServiceStatus, ServiceType, LifeSituationName
 
 
 class Organization(models.Model):
@@ -63,7 +63,10 @@ class CustomUser(AbstractUser):
 
 
 class LifeSituation(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )
+    name = models.CharField(max_length=10,
+                            choices=[(name.name, name.value) for name in LifeSituationName],
+                            verbose_name="Жизненная ситуация", blank=True,
+                            null=True, )
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 

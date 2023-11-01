@@ -1,5 +1,9 @@
 from enum import Enum
 
+class LifeSituationName(Enum):
+    NAME1 = 'name1'
+    NAME2 = 'name2'
+
 
 class ServiceType(Enum):
     AMENITY = 'Услуга'
