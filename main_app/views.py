@@ -101,7 +101,7 @@ class ServiceViewSet(CustomModelViewSet):
     def get_queryset(self):
         user = self.request.user
         organization = user.organization
-        queryset = LifeSituation.objects.filter(user__organization=organization)
+        queryset = Service.objects.filter(user__organization=organization)
         return queryset
 
     def list(self, request, **kwargs):
