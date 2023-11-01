@@ -92,19 +92,19 @@ class CustomModelViewSet(viewsets.ModelViewSet):
 def generate_life_situation_identifier(user=None):
     last_life_situation = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').count()
     life_situation_count = last_life_situation + 1
-    identifier = f"{user.organization.code}{life_situation_count}"
+    identifier = f"{user.organization.code}.{life_situation_count}"
     return identifier
 
 
 def generate_service_identifier(life_situation):
     last_service = Service.objects.filter(lifesituation=life_situation).order_by('-id').count()
     service_count = last_service + 1
-    identifier = f"{life_situation.identifier}{service_count}"
+    identifier = f"{life_situation.identifier}.{service_count}"
     return identifier
 
 
 def generate_process_identifier(service):
     last_process = Process.objects.filter(service=service).order_by('-id').count()
     process_count = last_process + 1
-    identifier = f"{service.identifier}{process_count}"
+    identifier = f"{service.identifier}.{process_count}"
     return identifier
