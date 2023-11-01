@@ -11,11 +11,11 @@ class ServiceSerializer(serializers.ModelSerializer):
 
 class ServiceListSerializer(ServiceSerializer):
     processes = ProcessRetrieveSerializer(many=True, read_only=True)
-    service_type_selected = serializers.CharField(source='get_service_type_display', read_only=True, label="Тип")
+    service_type = serializers.CharField(source='get_service_type_display', read_only=True, label="Тип")
 
     class Meta:
         model = Service
-        fields = ['id', 'service_type', 'name', 'regulating_act', 'processes', 'service_type_selected', 'identifier']
+        fields = ['id', 'service_type', 'name', 'regulating_act', 'processes', 'identifier']
 
 
 class ServiceRetrieveSerializer(ServiceSerializer):
