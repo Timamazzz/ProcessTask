@@ -64,8 +64,7 @@ class CustomUser(AbstractUser):
 
 class LifeSituation(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название жизненной ситуации", blank=True, null=True, )
-    identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True,
-                                  default="017.04.001")
+    identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
@@ -81,6 +80,8 @@ class Service(models.Model):
     regulating_act = models.CharField(max_length=255, verbose_name="Регулирующий акт", blank=True, null=True, )
     lifesituation = models.ForeignKey(LifeSituation, on_delete=models.CASCADE, verbose_name="Жизненная ситуация",
                                       blank=True, null=True, related_name='services')
+    identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True,
+                                  default="017.04.001")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
@@ -111,6 +112,8 @@ class Process(models.Model):
     input_data = models.TextField(verbose_name="Данные на входе", blank=True, null=True)
     output_data = models.TextField(verbose_name="Данные на выходе", blank=True, null=True)
     related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
+
 
     def __str__(self):
         return self.identifier

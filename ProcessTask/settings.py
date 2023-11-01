@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'ProcessTaskDev',
         'USER': 'ProcessTaskDev',
         'PASSWORD': '12345',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

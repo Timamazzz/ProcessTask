@@ -10,7 +10,8 @@ from .serializers.process_serializers import ProcessSerializer, ProcessRetrieveS
 from .serializers.service_serializers import ServiceSerializer, ServiceRetrieveSerializer, ServiceCreateSerializer, \
     ServiceUpdateSerializer
 from .serializers.user_serialzers import UserSerializer, UserRetrieveSerializer
-from .utils import generate_identifier, CustomModelViewSet
+from .utils import (generate_life_situation_identifier, generate_service_identifier, generate_process_identifier,
+                    CustomModelViewSet)
 import random
 import string
 from post_office import mail
@@ -62,8 +63,9 @@ class LifeSituationViewSet(CustomModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=False, methods=['get'])
-    def generate_identifier(self, request):
-        return Response({'identifier': '017.04.001'}, status=status.HTTP_200_OK)
+    def get_identifier(self, request):
+        identifier = generate_life_situation_identifier(user=request.user)
+        return Response({'identifier': identifier}, status=status.HTTP_200_OK)
 
     def get_queryset(self):
         user = self.request.user
@@ -112,6 +114,16 @@ class ServiceViewSet(CustomModelViewSet):
         return self.get_paginated_response(serializer.data) if page else Response(serializer.data,
                                                                                   status=status.HTTP_200_OK)
 
+    @action(detail=False, methods=['get'])
+    def get_identifier(self, request):
+        life_situation_id = request.query_params.get('life_situation_id')
+        try:
+            life_situation = LifeSituation.objects.get(id=life_situation_id)
+        except LifeSituation.DoesNotExist:
+            return Response({'error': 'Жизненная ситуация не найдена.'}, status=status.HTTP_404_NOT_FOUND)
+        identifier = generate_service_identifier(life_situation)
+        return Response({'identifier': identifier}, status=status.HTTP_200_OK)
+
 
 class ProcessViewSet(CustomModelViewSet):
     queryset = Process.objects.all()
@@ -125,6 +137,11 @@ class ProcessViewSet(CustomModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=False, methods=['get'])
-    def generate_identifier(self, request):
-        identifier = generate_identifier(user=request.user)
+    def get_identifier(self, request):
+        service_id = request.query_params.get('service_id')
+        try:
+            service = Service.objects.get(id=service_id)
+        except Service.DoesNotExist:
+            return Response({'error': 'Услуга не найдена.'}, status=status.HTTP_404_NOT_FOUND)
+        identifier = generate_process_identifier(service)
         return Response({'identifier': identifier}, status=status.HTTP_200_OK)

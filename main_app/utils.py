@@ -6,7 +6,7 @@ from collections import OrderedDict
 from django.utils.encoding import force_str
 from rest_framework import serializers, viewsets
 
-from main_app.models import Process
+from main_app.models import LifeSituation, Service, Process
 
 
 class CustomOptionsMetadata(SimpleMetadata):
@@ -89,14 +89,22 @@ class CustomModelViewSet(viewsets.ModelViewSet):
         return self.serializer_list.get(self.action, self.serializer_class)
 
 
-def generate_identifier(user=None):
-    last_process = Process.objects.filter(service__user__organization=user.organization).order_by('-id').first()
+def generate_life_situation_identifier(user=None):
+    last_life_situation = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').count()
+    life_situation_count = last_life_situation + 1
+    identifier = f"{user.organization.code}{life_situation_count}"
+    return identifier
 
-    if last_process:
-        process_id = last_process.id + 1
-    else:
-        process_id = 1
 
-    identifier = f"{user.organization.code}.{user.id}.{process_id}"
+def generate_service_identifier(life_situation):
+    last_service = Service.objects.filter(lifesituation=life_situation).order_by('-id').count()
+    service_count = last_service + 1
+    identifier = f"{life_situation.identifier}{service_count}"
+    return identifier
 
+
+def generate_process_identifier(service):
+    last_process = Process.objects.filter(service=service).order_by('-id').count()
+    process_count = last_process + 1
+    identifier = f"{service.identifier}{process_count}"
     return identifier
