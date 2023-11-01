@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from main_app.enums import ServiceStatus, ServiceType, LifeSituationName
+from main_app.enums import ServiceStatus, ServiceType, LifeSituationName, ProcessGroupEnum
 
 
 class Organization(models.Model):
@@ -116,7 +116,7 @@ class Process(models.Model):
     output_data = models.TextField(verbose_name="Данные на выходе", blank=True, null=True)
     related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
-    group = models.CharField(max_length=50, choices=[(group.name, group.value) for group in ProcessGroup],
+    group = models.CharField(max_length=50, choices=[(group.name, group.value) for group in ProcessGroupEnum],
                              verbose_name="Группа процессов", blank=True, null=True)
     def __str__(self):
         return self.identifier or "None"

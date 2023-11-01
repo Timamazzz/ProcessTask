@@ -106,7 +106,7 @@ class ServiceStatus(Enum):
     SENT_FOR_CERTIFICATION = 'Отправлен на сертификацию'
     CERTIFIED = 'Сертифицирован'
 
-class ProcessGroup(Enum):
+class ProcessGroupEnum(Enum):
     PUBLIC_SERVICES = 'Предоставление государственных услуг'
     INFORMATION_ACCESS = 'Обеспечение доступа к информации о деятельности'
     STATE_SUPPORT_MEASURES = 'Предоставление мер государственной поддержки'
