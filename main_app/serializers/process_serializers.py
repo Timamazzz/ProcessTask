@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from main_app.models import Process
 from main_app.enums import ServiceStatus
+from main_app.utils import generate_process_identifier
 
 
 class ProcessSerializer(serializers.ModelSerializer):
@@ -43,6 +44,8 @@ class ProcessCreateSerializer(ProcessSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         validated_data['user'] = user
+        identifier = generate_process_identifier(service=validated_data['service'])
+        validated_data['identifier'] = identifier
         return Process.objects.create(**validated_data)
 
 

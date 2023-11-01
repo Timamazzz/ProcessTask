@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from main_app.models import LifeSituation
-from main_app.serializers.service_serializers import ServiceRetrieveSerializer, ServiceListSerializer
-
+from main_app.serializers.service_serializers import ServiceListSerializer
+from main_app.utils import generate_life_situation_identifier
 
 class LifeSituationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -31,6 +31,8 @@ class LifeSituationCreateSerializer(LifeSituationSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         validated_data['user'] = user
+        identifier = generate_life_situation_identifier(user=user)
+        validated_data['identifier'] = identifier
         return LifeSituation.objects.create(**validated_data)
 
 

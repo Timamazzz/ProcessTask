@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from main_app.models import Service
 from main_app.serializers.process_serializers import ProcessRetrieveSerializer
-
+from main_app.utils import generate_service_identifier
 
 class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,6 +32,8 @@ class ServiceCreateSerializer(ServiceSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         validated_data['user'] = user
+        identifier = generate_service_identifier(life_situation=validated_data['lifesituation'])
+        validated_data['identifier'] = identifier
         return Service.objects.create(**validated_data)
 
 
