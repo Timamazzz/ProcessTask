@@ -13,7 +13,7 @@ class ProcessSerializer(serializers.ModelSerializer):
 class ProcessDataSerializer(ProcessSerializer):
     class Meta:
         model = Process
-        fields = ['client_value', 'input_data', 'output_data', 'related_processes']
+        fields = ['client_value', 'input_data', 'output_data', 'related_processes', 'group']
 
 
 class ProcessRetrieveSerializer(ProcessSerializer):
