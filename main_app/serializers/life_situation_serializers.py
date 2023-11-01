@@ -11,7 +11,7 @@ class LifeSituationSerializer(serializers.ModelSerializer):
 
 class LifeSituationListSerializer(LifeSituationSerializer):
     services = ServiceListSerializer(many=True, read_only=True)
-
+    name = serializers.CharField(source='get_name_display', read_only=True, label="Жизненная ситуация")
     class Meta:
         model = LifeSituation
         fields = ['id', 'name', 'identifier', 'services']
