@@ -65,6 +65,7 @@ class LifeSituationViewSet(CustomModelViewSet):
     @action(detail=False, methods=['get'])
     def get_identifier(self, request):
         identifier = generate_life_situation_identifier(user=request.user)
+        print('identifier life:', identifier)
         return Response({'identifier': identifier}, status=status.HTTP_200_OK)
 
     def get_queryset(self):
@@ -122,6 +123,7 @@ class ServiceViewSet(CustomModelViewSet):
         except LifeSituation.DoesNotExist:
             return Response({'error': 'Жизненная ситуация не найдена.'}, status=status.HTTP_404_NOT_FOUND)
         identifier = generate_service_identifier(life_situation)
+        print('identifier service:', identifier)
         return Response({'identifier': identifier}, status=status.HTTP_200_OK)
 
 
@@ -144,4 +146,5 @@ class ProcessViewSet(CustomModelViewSet):
         except Service.DoesNotExist:
             return Response({'error': 'Услуга не найдена.'}, status=status.HTTP_404_NOT_FOUND)
         identifier = generate_process_identifier(service)
+        print('identifier process:', identifier)
         return Response({'identifier': identifier}, status=status.HTTP_200_OK)
