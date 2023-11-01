@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from main_app.models import Service
 from main_app.serializers.process_serializers import ProcessRetrieveSerializer
-from main_app.enums import ServiceType
 
 
 class ServiceSerializer(serializers.ModelSerializer):
@@ -16,19 +15,19 @@ class ServiceListSerializer(ServiceSerializer):
 
     class Meta:
         model = Service
-        fields = ['id', 'service_type', 'name', 'regulating_act', 'processes', 'service_type_selected']
+        fields = ['id', 'service_type', 'name', 'regulating_act', 'processes', 'service_type_selected', 'identifier']
 
 
 class ServiceRetrieveSerializer(ServiceSerializer):
     class Meta:
         model = Service
-        fields = ['id', 'service_type', 'name', 'regulating_act']
+        fields = ['id', 'service_type', 'name', 'regulating_act', 'identifier']
 
 
 class ServiceCreateSerializer(ServiceSerializer):
     class Meta:
         model = Service
-        fields = ['service_type', 'name', 'regulating_act', 'lifesituation']
+        fields = ['service_type', 'name', 'regulating_act', 'lifesituation', 'identifier']
 
     def create(self, validated_data):
         user = self.context['request'].user
