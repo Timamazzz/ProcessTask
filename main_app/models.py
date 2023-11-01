@@ -68,7 +68,7 @@ class LifeSituation(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
-        return self.name
+        return self.identifier or "None"
 
 
 class Service(models.Model):
@@ -85,7 +85,7 @@ class Service(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
     def __str__(self):
-        return self.name or "service"
+        return self.identifier or "None"
 
 
 class Process(models.Model):
@@ -114,6 +114,5 @@ class Process(models.Model):
     related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
 
-
     def __str__(self):
-        return self.identifier
+        return self.identifier or "None"
