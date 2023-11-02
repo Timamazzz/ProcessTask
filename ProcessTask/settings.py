@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u*dj5xyj4#dk=4y!gw@@hou#zf=la6!5($ucgn$fzw&j8@@^-('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,20 +79,18 @@ WSGI_APPLICATION = 'ProcessTask.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ProcessTaskDev',
-        'USER': 'ProcessTaskDev',
-        'PASSWORD': '12345',
-        'HOST': 'db',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'sql_mode': 'ALLOW_INVALID_DATES',
+            'charset': 'utf8mb4',
+        },
+        'NAME': 'ProcessTaskDb',
+        'USER': 'itcomsqluser',
+        'PASSWORD': 'CR0504slpot!a',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
-'''DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -144,9 +142,9 @@ CORS_ALLOW_CREDENTIALS = True
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -154,7 +152,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+MEDIA_URL = 'media/'
 STATIC_URL = 'static/'
 
 # Default primary key field type
