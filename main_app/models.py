@@ -10,6 +10,10 @@ class Organization(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название организации", blank=True, null=True, )
     code = models.CharField(max_length=50, verbose_name="Код организации", unique=True, )
 
+    class Meta:
+        verbose_name = "Организация"
+        verbose_name_plural = "Организации"
+
     def __str__(self):
         return self.code
 
@@ -58,6 +62,10 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+
     def __str__(self):
         return self.email
 
@@ -69,6 +77,10 @@ class LifeSituation(models.Model):
                             null=True, )
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
+
+    class Meta:
+        verbose_name = "Жизненная ситуация"
+        verbose_name_plural = "Жизненные ситуации"
 
     def __str__(self):
         return self.identifier or "None"
@@ -86,6 +98,10 @@ class Service(models.Model):
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True,
                                   default="017.04.001")
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
+
+    class Meta:
+        verbose_name = "Услуга"
+        verbose_name_plural = "Услуги"
 
     def __str__(self):
         return self.identifier or "None"
@@ -118,5 +134,10 @@ class Process(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
     group = models.CharField(max_length=255, choices=[(group.name, group.value) for group in ProcessGroupEnum],
                              verbose_name="Группа процессов", blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Процесс"
+        verbose_name_plural = "Процессы"
+
     def __str__(self):
         return self.identifier or "None"
