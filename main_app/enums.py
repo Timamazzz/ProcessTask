@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class LifeSituationName(Enum):
     MULTICHILD_FAMILY = 'Многодетная семья'
     INDIVIDUAL_HOUSE_CONSTRUCTION = 'Строительство индивидуального жилого дома'
@@ -88,7 +89,7 @@ class LifeSituationName(Enum):
     CHILD_SCHOOL_ENROLLMENT = 'Поступление ребёнка в школу'
     CHILD_BIRTH = 'Рождение ребёнка'
     PREGNANCY_ANTICIPATION = 'Ожидание рождения ребёнка (беременность)'
-
+    ANOTHER = 'Другое'
 
 
 class ServiceType(Enum):
@@ -106,6 +107,7 @@ class ServiceStatus(Enum):
     SENT_FOR_CERTIFICATION = 'Отправлен на сертификацию'
     CERTIFIED = 'Сертифицирован'
 
+
 class ProcessGroupEnum(Enum):
     PUBLIC_SERVICES = 'Предоставление государственных услуг'
     INFORMATION_ACCESS = 'Обеспечение доступа к информации о деятельности'
@@ -114,5 +116,3 @@ class ProcessGroupEnum(Enum):
     STATE_CONTROL_SUPERVISION = 'Государственный контроль и надзор'
     OTHER_FUNCTIONS = 'Иные функции (обеспечение деятельности органа власти)'
     REQUESTS_AND_APPEALS = 'Рассмотрение обращений и запросов'
-
-
