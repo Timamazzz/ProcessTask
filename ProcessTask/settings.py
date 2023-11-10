@@ -118,11 +118,11 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=1),
-    'SLIDING_TOKEN_REFRESH_LIFETIME_LAZY': timedelta(days=1),
-    'SLIDING_TOKEN_LIFETIME_LAZY': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(weeks=1),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(weeks=2),
+    'SLIDING_TOKEN_LIFETIME': timedelta(weeks=1),
+    'SLIDING_TOKEN_REFRESH_LIFETIME_LAZY': timedelta(weeks=1),
+    'SLIDING_TOKEN_LIFETIME_LAZY': timedelta(weeks=1),
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
