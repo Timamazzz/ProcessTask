@@ -83,8 +83,8 @@ class LifeSituationViewSet(CustomModelViewSet):
                 Q(identifier__icontains=search_string) |
                 Q(services__name__icontains=search_string) |
                 Q(services__identifier__icontains=search_string) |
-                Q(processes__name__icontains=search_string) |
-                Q(processes__identifier__icontains=search_string)
+                Q(services__processes__name__icontains=search_string) |
+                Q(services__processes__identifier__icontains=search_string)
             )
         queryset = queryset.distinct()
         page = self.paginate_queryset(queryset)
