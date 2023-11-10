@@ -78,7 +78,14 @@ class LifeSituationViewSet(CustomModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         search_string = self.request.query_params.get('search', None)
         if search_string:
-            queryset = queryset.filter(Q(name__icontains=search_string) | Q(services__name__icontains=search_string))
+            queryset = queryset.filter(
+                Q(name__icontains=search_string) |
+                Q(identifier__icontains=search_string) |
+                Q(services__name__icontains=search_string) |
+                Q(services__identifier__icontains=search_string) |
+                Q(processes__name__icontains=search_string) |
+                Q(processes__identifier__icontains=search_string)
+            )
         queryset = queryset.distinct()
         page = self.paginate_queryset(queryset)
         serializer = LifeSituationListSerializer(page, many=True) if page else LifeSituationListSerializer(queryset,
