@@ -72,7 +72,7 @@ class CustomUser(AbstractUser):
 
 
 class LifeSituation(models.Model):
-    name = models.CharField(max_length=100,
+    name = models.CharField(max_length=512,
                             choices=[(name.name, name.value) for name in LifeSituationName],
                             verbose_name="Жизненная ситуация", blank=True,
                             null=True, )
@@ -88,12 +88,12 @@ class LifeSituation(models.Model):
 
 
 class Service(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название услуги", blank=True, null=True, )
+    name = models.CharField(max_length=512, verbose_name="Название услуги", blank=True, null=True, )
     service_type = models.CharField(max_length=10,
                                     choices=[(type.name, type.value) for type in ServiceType],
                                     verbose_name="Тип услуги", blank=True,
                                     null=True, )
-    regulating_act = models.CharField(max_length=255, verbose_name="Регулирующий акт", blank=True, null=True, )
+    regulating_act = models.CharField(max_length=512, verbose_name="Регулирующий акт", blank=True, null=True, )
     lifesituation = models.ForeignKey(LifeSituation, on_delete=models.CASCADE, verbose_name="Жизненная ситуация",
                                       blank=True, null=True, related_name='services')
     identifier = models.CharField(max_length=50, verbose_name="Идентификатор", blank=True, null=True,
@@ -109,17 +109,17 @@ class Service(models.Model):
 
 
 class Process(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название процесса", blank=True, null=True)
+    name = models.CharField(max_length=512, verbose_name="Название процесса", blank=True, null=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
-    status = models.CharField(max_length=255, choices=[(type.name, type.value) for type in ServiceStatus],
+    status = models.CharField(max_length=512, choices=[(type.name, type.value) for type in ServiceStatus],
                               default='in_queue', verbose_name="Статус",
                               blank=True, null=True)
     is_internal_client = models.BooleanField(default=False, verbose_name="Внутренний клиент", blank=True, null=True)
     is_external_client = models.BooleanField(default=False, verbose_name="Внешний клиент", blank=True, null=True)
-    responsible_authority = models.CharField(max_length=255, verbose_name="Орган, ответственный за процесс", blank=True,
+    responsible_authority = models.CharField(max_length=512, verbose_name="Орган, ответственный за процесс", blank=True,
                                              null=True)
-    department = models.CharField(max_length=255, verbose_name="Структурное подразделение органа", blank=True,
+    department = models.CharField(max_length=512, verbose_name="Структурное подразделение органа", blank=True,
                                   null=True)
     is_digital_format = models.BooleanField(default=False, verbose_name="Цифровой формат", blank=True, null=True)
     is_non_digital_format = models.BooleanField(default=False, verbose_name="Не цифровой формат", blank=True, null=True)
