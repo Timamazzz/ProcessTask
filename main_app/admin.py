@@ -22,9 +22,9 @@ class OrganizationAdmin(admin.ModelAdmin):
 
             # Write headers and merge cells
             headers = [
-                ('LifeSituation', 'A', 'C'),
-                ('Service', 'D', 'H'),
-                ('Process', 'I', 'X'),
+                ('Жизненная ситуация', 'A', 'C'),
+                ('Услуга', 'D', 'H'),
+                ('Процесс', 'I', 'X'),
             ]
 
             for header, start_column, end_column in headers:
@@ -33,12 +33,12 @@ class OrganizationAdmin(admin.ModelAdmin):
 
             # Write the common headers in the second row
             common_headers = [
-                'Identifier', 'Name', 'User',
-                'Identifier', 'Name', 'Service Type', 'Regulating Act', 'User',
-                'Identifier', 'Name', 'Status', 'Internal Client', 'External Client',
-                'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
-                'Digital Format Link', 'Client Value', 'Input Data', 'Output Data',
-                'Related Processes', 'Group', 'User',
+                'Идентификатор', 'Название', 'Пользователь',
+                'Идентификатор', 'Название', 'Тип услуги', 'Регулирующий акт', 'Пользователь',
+                'Идентификатор', 'Название', 'Статус', 'Внутренний клиент', 'Внешний клиент',
+                'Ответственный орган', 'Отдел', 'Цифровой формат', 'Не цифровой формат',
+                'Ссылка на цифровой формат', 'Ценность для клиента', 'Данные на входе', 'Данные на выходе',
+                'Связанные процессы', 'Группа', 'Пользователь',
             ]
 
             for col_num, header in enumerate(common_headers, start=1):
