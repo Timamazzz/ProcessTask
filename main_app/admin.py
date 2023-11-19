@@ -33,19 +33,19 @@ class OrganizationAdmin(admin.ModelAdmin):
             processes = Process.objects.filter(user__organization=organization)
 
             for life_situation in life_situations:
-                life_situation_ws.append([life_situation.name, life_situation.identifier, life_situation.user])
+                life_situation_ws.append([life_situation.name, life_situation.identifier, life_situation.user.email])
 
             for service in services:
-                service_ws.append([service.name, service.service_type, service.regulating_act, service.lifesituation,
-                                   service.identifier, service.user])
+                service_ws.append([service.name, service.service_type, service.regulating_act, service.lifesituation.identifier,
+                                   service.identifier, service.user.email])
 
             for process in processes:
-                process_ws.append([process.name, process.service, process.status, process.is_internal_client,
+                process_ws.append([process.name, process.service.identifier, process.status, process.is_internal_client,
                                    process.is_external_client, process.responsible_authority, process.department,
                                    process.is_digital_format, process.is_non_digital_format,
                                    process.digital_format_link,
                                    process.identifier, process.client_value, process.input_data, process.output_data,
-                                   process.related_processes, process.user, process.group])
+                                   process.related_processes, process.user.email, process.group])
 
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
