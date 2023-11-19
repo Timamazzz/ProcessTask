@@ -18,10 +18,15 @@ class OrganizationAdmin(admin.ModelAdmin):
         ws.title = 'ExportedData'
 
         # Add headers to the worksheet
-        headers = ['Name', 'Identifier', 'User', 'Service Type', 'Regulating Act', 'Life Situation', 'Identifier',
-                   'Client Value', 'Input Data', 'Output Data', 'Related Processes', 'Status', 'Internal Client',
-                   'External Client', 'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
-                   'Digital Format Link', 'Group']
+        headers = [
+            'LifeSituation Identifier', 'LifeSituation Name', 'LifeSituation User',
+            'Service Identifier', 'Service Name', 'Service Type', 'Service Regulating Act', 'Service User',
+            'Process Identifier', 'Process Name', 'Process Status', 'Process Internal Client',
+            'Process External Client', 'Process Responsible Authority', 'Process Department',
+            'Process Digital Format', 'Process Non-Digital Format', 'Process Digital Format Link',
+            'Process Client Value', 'Process Input Data', 'Process Output Data',
+            'Process Related Processes', 'Process Group', 'Process User'
+        ]
         ws.append(headers)
 
         # Populate the worksheet with data from the selected Organization
@@ -32,30 +37,47 @@ class OrganizationAdmin(admin.ModelAdmin):
 
             for life_situation in life_situations:
                 row_data = [
-                    life_situation.name, life_situation.identifier, life_situation.user.email,
-                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
+                    life_situation.identifier, life_situation.name, life_situation.user.email,
+                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+                    None,
+                    None, None, None, None, None, None
                 ]
                 ws.append(row_data)
 
             for service in services:
                 row_data = [
-                    service.name, service.identifier, service.user.email,
-                    service.service_type, service.regulating_act, service.lifesituation.identifier,
-                    None, None, None, None, None, None, None, None, None, None, None, None, None, None
+                    None, None, None,
+                    service.identifier, service.name, service.service_type.value, service.regulating_act,
+                    service.user.email,
+                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
                 ]
                 ws.append(row_data)
 
-            for process in processes:
-                row_data = [
-                    process.name, process.identifier, process.user.email,
-                    process.service.service_type, process.service.regulating_act,
-                    process.service.lifesituation.identifier, process.client_value, process.input_data,
-                    process.output_data, process.related_processes, process.status, process.is_internal_client,
-                    process.is_external_client, process.responsible_authority, process.department,
-                    process.is_digital_format, process.is_non_digital_format, process.digital_format_link,
-                    process.group
-                ]
-                ws.append(row_data)
+                # If there are multiple processes for a service, merge the rows for each column
+                processes_for_service = Process.objects.filter(service=service)
+                for process in processes_for_service:
+                    row_data = [
+                        None, None, None,
+                        None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
+                        None, None, None, None, None, None
+                    ]
+                    row_data[9] = process.identifier
+                    row_data[10] = process.name
+                    row_data[11] = process.status
+                    row_data[12] = process.is_internal_client
+                    row_data[13] = process.is_external_client
+                    row_data[14] = process.responsible_authority
+                    row_data[15] = process.department
+                    row_data[16] = process.is_digital_format
+                    row_data[17] = process.is_non_digital_format
+                    row_data[18] = process.digital_format_link
+                    row_data[19] = process.client_value
+                    row_data[20] = process.input_data
+                    row_data[21] = process.output_data
+                    row_data[22] = process.related_processes
+                    row_data[23] = process.group
+                    row_data[24] = process.user.email
+                    ws.append(row_data)
 
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
