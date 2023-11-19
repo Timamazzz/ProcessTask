@@ -12,72 +12,34 @@ class OrganizationAdmin(admin.ModelAdmin):
     actions = ['export_to_excel']
 
     def export_to_excel(self, request, queryset):
-        # Create a new Excel workbook and add a worksheet
+        # Create a new Excel workbook and add worksheets for each model
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.title = 'ExportedData'
 
-        # Add headers to the worksheet
+        # Write headers and merge cells
         headers = [
-            'LifeSituation Identifier', 'LifeSituation Name', 'LifeSituation User',
-            'Service Identifier', 'Service Name', 'Service Type', 'Service Regulating Act', 'Service User',
-            'Process Identifier', 'Process Name', 'Process Status', 'Process Internal Client',
-            'Process External Client', 'Process Responsible Authority', 'Process Department',
-            'Process Digital Format', 'Process Non-Digital Format', 'Process Digital Format Link',
-            'Process Client Value', 'Process Input Data', 'Process Output Data',
-            'Process Related Processes', 'Process Group', 'Process User'
+            ('LifeSituation', 'A', 'C'),
+            ('Service', 'D', 'H'),
+            ('Process', 'I', 'X'),
         ]
-        ws.append(headers)
 
-        # Populate the worksheet with data from the selected Organization
-        for organization in queryset:
-            life_situations = LifeSituation.objects.filter(user__organization=organization)
-            services = Service.objects.filter(user__organization=organization)
-            processes = Process.objects.filter(user__organization=organization)
+        for header, start_column, end_column in headers:
+            ws[f'{start_column}1'] = header
+            ws.merge_cells(f'{start_column}1:{end_column}1')
 
-            for life_situation in life_situations:
-                row_data = [
-                    life_situation.identifier, life_situation.name, life_situation.user.email,
-                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
-                    None,
-                    None, None, None, None, None, None
-                ]
-                ws.append(row_data)
+        # Write the common headers in the second row
+        common_headers = [
+            'Identifier', 'Name', 'User',
+            'Identifier', 'Name', 'Service Type', 'Regulating Act', 'User',
+            'Identifier', 'Name', 'Status', 'Internal Client', 'External Client',
+            'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
+            'Digital Format Link', 'Client Value', 'Input Data', 'Output Data',
+            'Related Processes', 'Group', 'User',
+        ]
 
-            for service in services:
-                row_data = [
-                    None, None, None,
-                    service.identifier, service.name, service.service_type, service.regulating_act,
-                    service.user.email,
-                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
-                ]
-                ws.append(row_data)
-
-                # If there are multiple processes for a service, merge the rows for each column
-                processes_for_service = Process.objects.filter(service=service)
-                for process in processes_for_service:
-                    row_data = [
-                        None, None, None,
-                        None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None,
-                        None, None, None, None, None, None
-                    ]
-                    row_data[9] = process.identifier
-                    row_data[10] = process.name
-                    row_data[11] = process.status
-                    row_data[12] = process.is_internal_client
-                    row_data[13] = process.is_external_client
-                    row_data[14] = process.responsible_authority
-                    row_data[15] = process.department
-                    row_data[16] = process.is_digital_format
-                    row_data[17] = process.is_non_digital_format
-                    row_data[18] = process.digital_format_link
-                    row_data[19] = process.client_value
-                    row_data[20] = process.input_data
-                    row_data[21] = process.output_data
-                    row_data[22] = process.related_processes
-                    row_data[23] = process.group
-                    row_data[24] = process.user.email
-                    ws.append(row_data)
+        for col_num, header in enumerate(common_headers, start=1):
+            ws.cell(row=2, column=col_num, value=header)
 
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -85,7 +47,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         wb.save(response)
         return response
 
-    export_to_excel.short_description = "Экспортируйте данные выбранной организации в Excel"
+    export_to_excel.short_description = "Экспорт данных выбранной организации в Excel"
 
 
 class CustomUserAdmin(UserAdmin):
