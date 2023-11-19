@@ -86,7 +86,10 @@ class OrganizationAdmin(admin.ModelAdmin):
                             ws.cell(row=row_num, column=20, value=process.input_data)
                             ws.cell(row=row_num, column=21, value=process.output_data)
                             ws.cell(row=row_num, column=22, value=process.related_processes)
-                            ws.cell(row=row_num, column=23, value=ProcessGroupEnum.get(process.group, '').value)
+                            try:
+                                ws.cell(row=row_num, column=23, value=ProcessGroupEnum[process.group].value)
+                            except KeyError:
+                                ws.cell(row=row_num, column=23, value='')
                             ws.cell(row=row_num, column=24, value=process.user.email)
 
                             if process_index < len(processes) - 1:
