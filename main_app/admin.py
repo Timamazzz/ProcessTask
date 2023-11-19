@@ -18,7 +18,7 @@ class OrganizationAdmin(admin.ModelAdmin):
 
         # Populate each worksheet with data from the selected Organization
         for organization in queryset:
-            ws = wb.create_sheet(title=organization.code)  # Use organization id as sheet name
+            ws = wb.create_sheet(title=organization.code)  # Use organization code as sheet name
 
             # Write headers and merge cells
             headers = [
@@ -117,7 +117,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         wb.save(response)
         return response
 
-    export_to_excel.short_description = "Экспорт данных выбранной организации в Excel"
+    export_to_excel.short_description = "Экспорт данных выбранных организаций в Excel"
 
 
 class CustomUserAdmin(UserAdmin):
