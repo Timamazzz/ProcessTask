@@ -92,12 +92,12 @@ class OrganizationAdmin(admin.ModelAdmin):
                                                end_row=row_num - 1, end_column=col_num)
                         row_num += 1
 
+                    row_num += 1
                     # Merge cells for the life situation columns
                     if len(services) > 0:
                         for col_num in range(1, 4):
                             ws.merge_cells(start_row=row_num - len(services), start_column=col_num,
                                            end_row=row_num - 1, end_column=col_num)
-                    row_num += 1
 
         # Remove the default sheet created and save the response
         wb.remove(wb.active)
