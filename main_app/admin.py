@@ -12,40 +12,50 @@ class OrganizationAdmin(admin.ModelAdmin):
     actions = ['export_to_excel']
 
     def export_to_excel(self, request, queryset):
-        # Create a new Excel workbook and add worksheets for each model
+        # Create a new Excel workbook and add a worksheet
         wb = openpyxl.Workbook()
-        life_situation_ws = wb.create_sheet(title='LifeSituation')
-        service_ws = wb.create_sheet(title='Service')
-        process_ws = wb.create_sheet(title='Process')
+        ws = wb.active
+        ws.title = 'ExportedData'
 
-        # Add headers to each worksheet
-        life_situation_ws.append(['Name', 'Identifier', 'User'])
-        service_ws.append(['Name', 'Service Type', 'Regulating Act', 'Life Situation', 'Identifier', 'User'])
-        process_ws.append(['Name', 'Service', 'Status', 'Internal Client', 'External Client',
-                           'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
-                           'Digital Format Link', 'Identifier', 'Client Value', 'Input Data', 'Output Data',
-                           'Related Processes', 'User', 'Group'])
+        # Add headers to the worksheet
+        headers = ['Name', 'Identifier', 'User', 'Service Type', 'Regulating Act', 'Life Situation', 'Identifier',
+                   'Client Value', 'Input Data', 'Output Data', 'Related Processes', 'Status', 'Internal Client',
+                   'External Client', 'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
+                   'Digital Format Link', 'Group']
+        ws.append(headers)
 
-        # Populate each worksheet with data from the selected Organization
+        # Populate the worksheet with data from the selected Organization
         for organization in queryset:
             life_situations = LifeSituation.objects.filter(user__organization=organization)
             services = Service.objects.filter(user__organization=organization)
             processes = Process.objects.filter(user__organization=organization)
 
             for life_situation in life_situations:
-                life_situation_ws.append([life_situation.name, life_situation.identifier, life_situation.user.email])
+                row_data = [
+                    life_situation.name, life_situation.identifier, life_situation.user.email,
+                    None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
+                ]
+                ws.append(row_data)
 
             for service in services:
-                service_ws.append([service.name, service.service_type, service.regulating_act, service.lifesituation.identifier,
-                                   service.identifier, service.user.email])
+                row_data = [
+                    service.name, service.identifier, service.user.email,
+                    service.service_type, service.regulating_act, service.lifesituation.identifier,
+                    None, None, None, None, None, None, None, None, None, None, None, None, None, None
+                ]
+                ws.append(row_data)
 
             for process in processes:
-                process_ws.append([process.name, process.service.identifier, process.status, process.is_internal_client,
-                                   process.is_external_client, process.responsible_authority, process.department,
-                                   process.is_digital_format, process.is_non_digital_format,
-                                   process.digital_format_link,
-                                   process.identifier, process.client_value, process.input_data, process.output_data,
-                                   process.related_processes, process.user.email, process.group])
+                row_data = [
+                    process.name, process.identifier, process.user.email,
+                    process.service.service_type, process.service.regulating_act,
+                    process.service.lifesituation.identifier, process.client_value, process.input_data,
+                    process.output_data, process.related_processes, process.status, process.is_internal_client,
+                    process.is_external_client, process.responsible_authority, process.department,
+                    process.is_digital_format, process.is_non_digital_format, process.digital_format_link,
+                    process.group
+                ]
+                ws.append(row_data)
 
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
@@ -53,7 +63,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         wb.save(response)
         return response
 
-    export_to_excel.short_description = "Export selected organization's data to Excel"
+    export_to_excel.short_description = "Экспортируйте данные выбранной организации в Excel"
 
 
 class CustomUserAdmin(UserAdmin):
