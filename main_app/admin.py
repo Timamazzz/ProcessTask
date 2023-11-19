@@ -41,6 +41,61 @@ class OrganizationAdmin(admin.ModelAdmin):
         for col_num, header in enumerate(common_headers, start=1):
             ws.cell(row=2, column=col_num, value=header)
 
+            # Populate each worksheet with data from the selected Organization
+            row_num = 3  # Start from the third row
+
+            for organization in queryset:
+                life_situations = LifeSituation.objects.filter(user__organization=organization)
+
+                for life_situation in life_situations:
+                    ws.cell(row=row_num, column=1, value=life_situation.identifier)
+                    ws.cell(row=row_num, column=2, value=life_situation.name)
+                    ws.cell(row=row_num, column=3, value=life_situation.user.email)
+                    row_num += 1
+
+                    # Fetch related services for the current life situation
+                    services = Service.objects.filter(lifesituation=life_situation)
+
+                    for service in services:
+                        ws.cell(row=row_num, column=4, value=service.identifier)
+                        ws.cell(row=row_num, column=5, value=service.name)
+                        ws.cell(row=row_num, column=6, value=service.service_type)
+                        ws.cell(row=row_num, column=7, value=service.regulating_act)
+                        ws.cell(row=row_num, column=8, value=service.user.email)
+                        row_num += 1
+
+                        # Fetch related processes for the current service
+                        processes = Process.objects.filter(service=service)
+
+                        for process in processes:
+                            ws.cell(row=row_num, column=9, value=process.identifier)
+                            ws.cell(row=row_num, column=10, value=process.name)
+                            ws.cell(row=row_num, column=11, value=process.status)
+                            ws.cell(row=row_num, column=12, value=process.is_internal_client)
+                            ws.cell(row=row_num, column=13, value=process.is_external_client)
+                            ws.cell(row=row_num, column=14, value=process.responsible_authority)
+                            ws.cell(row=row_num, column=15, value=process.department)
+                            ws.cell(row=row_num, column=16, value=process.is_digital_format)
+                            ws.cell(row=row_num, column=17, value=process.is_non_digital_format)
+                            ws.cell(row=row_num, column=18, value=process.digital_format_link)
+                            ws.cell(row=row_num, column=19, value=process.client_value)
+                            ws.cell(row=row_num, column=20, value=process.input_data)
+                            ws.cell(row=row_num, column=21, value=process.output_data)
+                            ws.cell(row=row_num, column=22, value=process.related_processes)
+                            ws.cell(row=row_num, column=23, value=process.group)
+                            ws.cell(row=row_num, column=24, value=process.user.email)
+                            row_num += 1
+
+                        # Merge cells for the service columns
+                        for col_num in range(4, 9):
+                            ws.merge_cells(start_row=row_num - len(processes), start_column=col_num,
+                                           end_row=row_num - 1, end_column=col_num)
+
+                    # Merge cells for the life situation columns
+                    for col_num in range(1, 4):
+                        ws.merge_cells(start_row=row_num - len(services), start_column=col_num,
+                                       end_row=row_num - 1, end_column=col_num)
+
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
