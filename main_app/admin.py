@@ -4,7 +4,6 @@ from django.http import HttpResponse
 
 from .models import CustomUser, LifeSituation, Process, Service, Organization
 from django.contrib.auth.admin import UserAdmin
-from openpyxl.writer.excel import save_virtual_workbook
 
 
 class OrganizationAdmin(admin.ModelAdmin):
@@ -51,7 +50,7 @@ class OrganizationAdmin(admin.ModelAdmin):
         # Create a response with the Excel file
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
-        response.write(save_virtual_workbook(wb))
+        wb.save(response)
         return response
 
     export_to_excel.short_description = "Export selected organization's data to Excel"
