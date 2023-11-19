@@ -87,13 +87,13 @@ class OrganizationAdmin(admin.ModelAdmin):
                             row_num += 1
 
                         # Merge cells for the service columns
-                        for col_num in range(4, 9):
-                            ws.merge_cells(range_string=None, start_row=row_num - len(processes), start_column=col_num,
-                                           end_row=row_num - 1, end_column=col_num)
+                        #for col_num in range(4, 9):
+                        #    ws.merge_cells(start_row=row_num - len(processes), start_column=col_num,
+                        #                   end_row=row_num - 1, end_column=col_num)
 
                     # Merge cells for the life situation columns
                     for col_num in range(1, 4):
-                        ws.merge_cells(range_string=None, start_row=row_num - len(services), start_column=col_num,
+                        ws.merge_cells(start_row=row_num - len(services), start_column=col_num,
                                        end_row=row_num - 1, end_column=col_num)
 
         # Create a response with the Excel file
