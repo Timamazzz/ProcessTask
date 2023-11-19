@@ -65,6 +65,8 @@ class OrganizationAdmin(admin.ModelAdmin):
                         ws.cell(row=row_num, column=7, value=service.regulating_act)
                         ws.cell(row=row_num, column=8, value=service.user.email)
 
+                        start_service_row = row_num
+
                         # Fetch related processes for the current service
                         processes = Process.objects.filter(service=service)
 
@@ -90,7 +92,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                         # Merge cells for the service columns
                         if len(processes) > 0:
                             for col_num in range(4, 9):
-                                ws.merge_cells(start_row=row_num - len(processes), start_column=col_num,
+                                ws.merge_cells(start_row=start_service_row, start_column=col_num,
                                                end_row=row_num - 1, end_column=col_num)
                         row_num += 1
 
