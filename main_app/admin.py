@@ -95,14 +95,14 @@ class OrganizationAdmin(admin.ModelAdmin):
                         if len(processes) > 0:
                             for col_num in range(4, 9):
                                 ws.merge_cells(start_row=start_service_row, start_column=col_num,
-                                               end_row=row_num - 1, end_column=col_num)
+                                               end_row=row_num, end_column=col_num)
                         row_num += 1
 
                     # Merge cells for the life situation columns
                     if len(services) > 0:
                         for col_num in range(1, 4):
                             ws.merge_cells(start_row=start_life_situation_row, start_column=col_num,
-                                           end_row=row_num - 1, end_column=col_num)
+                                           end_row=row_num, end_column=col_num)
                     row_num += 1
 
         # Remove the default sheet created and save the response
