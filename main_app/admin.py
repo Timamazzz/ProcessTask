@@ -2,6 +2,7 @@ import openpyxl
 from django.contrib import admin
 from django.http import HttpResponse
 
+from .enums import ServiceType
 from .models import CustomUser, LifeSituation, Process, Service, Organization
 from django.contrib.auth.admin import UserAdmin
 
@@ -61,7 +62,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                     for service_index, service in enumerate(services):
                         ws.cell(row=row_num, column=4, value=service.identifier)
                         ws.cell(row=row_num, column=5, value=service.name)
-                        ws.cell(row=row_num, column=6, value=service.service_type)
+                        ws.cell(row=row_num, column=6, value=ServiceType[service.service_type].value)
                         ws.cell(row=row_num, column=7, value=service.regulating_act)
                         ws.cell(row=row_num, column=8, value=service.user.email)
 
@@ -74,12 +75,12 @@ class OrganizationAdmin(admin.ModelAdmin):
                             ws.cell(row=row_num, column=9, value=process.identifier)
                             ws.cell(row=row_num, column=10, value=process.name)
                             ws.cell(row=row_num, column=11, value=process.status)
-                            ws.cell(row=row_num, column=12, value=process.is_internal_client)
-                            ws.cell(row=row_num, column=13, value=process.is_external_client)
+                            ws.cell(row=row_num, column=12, value='Да' if process.is_internal_client else 'Нет')
+                            ws.cell(row=row_num, column=13, value='Да' if process.is_external_client else 'Нет')
                             ws.cell(row=row_num, column=14, value=process.responsible_authority)
                             ws.cell(row=row_num, column=15, value=process.department)
-                            ws.cell(row=row_num, column=16, value=process.is_digital_format)
-                            ws.cell(row=row_num, column=17, value=process.is_non_digital_format)
+                            ws.cell(row=row_num, column=16, value='Да' if process.is_digital_format else 'Нет')
+                            ws.cell(row=row_num, column=17, value='Да' if process.is_non_digital_format else 'Нет')
                             ws.cell(row=row_num, column=18, value=process.digital_format_link)
                             ws.cell(row=row_num, column=19, value=process.client_value)
                             ws.cell(row=row_num, column=20, value=process.input_data)
