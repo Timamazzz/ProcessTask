@@ -12,39 +12,40 @@ class OrganizationAdmin(admin.ModelAdmin):
     actions = ['export_to_excel']
 
     def export_to_excel(self, request, queryset):
-        # Create a new Excel workbook and add worksheets for each model
+        # Create a new Excel workbook
         wb = openpyxl.Workbook()
-        ws = wb.active
-        ws.title = 'ExportedData'
 
-        # Write headers and merge cells
-        headers = [
-            ('LifeSituation', 'A', 'C'),
-            ('Service', 'D', 'H'),
-            ('Process', 'I', 'X'),
-        ]
+        # Populate each worksheet with data from the selected Organization
+        for organization in queryset:
+            ws = wb.create_sheet(title=str(organization.id))  # Use organization id as sheet name
 
-        for header, start_column, end_column in headers:
-            ws[f'{start_column}1'] = header
-            ws.merge_cells(f'{start_column}1:{end_column}1')
+            # Write headers and merge cells
+            headers = [
+                ('LifeSituation', 'A', 'C'),
+                ('Service', 'D', 'H'),
+                ('Process', 'I', 'X'),
+            ]
 
-        # Write the common headers in the second row
-        common_headers = [
-            'Identifier', 'Name', 'User',
-            'Identifier', 'Name', 'Service Type', 'Regulating Act', 'User',
-            'Identifier', 'Name', 'Status', 'Internal Client', 'External Client',
-            'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
-            'Digital Format Link', 'Client Value', 'Input Data', 'Output Data',
-            'Related Processes', 'Group', 'User',
-        ]
+            for header, start_column, end_column in headers:
+                ws[f'{start_column}1'] = header
+                ws.merge_cells(f'{start_column}1:{end_column}1')
 
-        for col_num, header in enumerate(common_headers, start=1):
-            ws.cell(row=2, column=col_num, value=header)
+            # Write the common headers in the second row
+            common_headers = [
+                'Identifier', 'Name', 'User',
+                'Identifier', 'Name', 'Service Type', 'Regulating Act', 'User',
+                'Identifier', 'Name', 'Status', 'Internal Client', 'External Client',
+                'Responsible Authority', 'Department', 'Digital Format', 'Non-Digital Format',
+                'Digital Format Link', 'Client Value', 'Input Data', 'Output Data',
+                'Related Processes', 'Group', 'User',
+            ]
 
-            # Populate each worksheet with data from the selected Organization
-            row_num = 3  # Start from the third row
+            for col_num, header in enumerate(common_headers, start=1):
+                ws.cell(row=2, column=col_num, value=header)
 
-            for organization in queryset:
+                # Populate the worksheet with data for the current organization
+                row_num = 3  # Start from the third row
+
                 life_situations = LifeSituation.objects.filter(user__organization=organization)
 
                 for life_situation in life_situations:
@@ -85,18 +86,21 @@ class OrganizationAdmin(admin.ModelAdmin):
                             row_num += 1
 
                         # Merge cells for the service columns
-                        for col_num in range(4, 9):
-                            ws.merge_cells(start_row=row_num - len(processes), start_column=col_num,
-                                           end_row=row_num - 1, end_column=col_num)
+                        if len(processes) > 0:
+                            for col_num in range(4, 9):
+                                ws.merge_cells(start_row=row_num - len(processes), start_column=col_num,
+                                               end_row=row_num - 1, end_column=col_num)
                         row_num += 1
 
                     # Merge cells for the life situation columns
-                    for col_num in range(1, 4):
-                        ws.merge_cells(start_row=row_num - len(services), start_column=col_num,
-                                       end_row=row_num - 1, end_column=col_num)
+                    if len(services) > 0:
+                        for col_num in range(1, 4):
+                            ws.merge_cells(start_row=row_num - len(services), start_column=col_num,
+                                           end_row=row_num - 1, end_column=col_num)
                     row_num += 1
 
-        # Create a response with the Excel file
+        # Remove the default sheet created and save the response
+        wb.remove(wb.active)
         response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=exported_data.xlsx'
         wb.save(response)
