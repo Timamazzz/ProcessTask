@@ -2,7 +2,7 @@ import openpyxl
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .enums import ServiceType, ProcessStatus, ProcessGroupEnum
+from .enums import ServiceType, ProcessStatus, ProcessGroupEnum, LifeSituationName
 from .models import CustomUser, LifeSituation, Process, Service, Organization
 from django.contrib.auth.admin import UserAdmin
 
@@ -51,7 +51,7 @@ class OrganizationAdmin(admin.ModelAdmin):
 
                 for life_situation in life_situations:
                     ws.cell(row=row_num, column=1, value=life_situation.identifier)
-                    ws.cell(row=row_num, column=2, value=life_situation.name)
+                    ws.cell(row=row_num, column=2, value=LifeSituationName[life_situation.name].value)
                     ws.cell(row=row_num, column=3, value=life_situation.user.email)
 
                     start_life_situation_row = row_num
