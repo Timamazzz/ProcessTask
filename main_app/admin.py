@@ -47,7 +47,7 @@ class OrganizationAdmin(admin.ModelAdmin):
             for service in services:
                 row_data = [
                     None, None, None,
-                    service.identifier, service.name, service.service_type.value, service.regulating_act,
+                    service.identifier, service.name, service.service_type, service.regulating_act,
                     service.user.email,
                     None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None
                 ]
