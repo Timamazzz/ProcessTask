@@ -58,7 +58,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                     # Fetch related services for the current life situation
                     services = Service.objects.filter(lifesituation=life_situation)
 
-                    for service in services:
+                    for service_index, service in enumerate(services):
                         ws.cell(row=row_num, column=4, value=service.identifier)
                         ws.cell(row=row_num, column=5, value=service.name)
                         ws.cell(row=row_num, column=6, value=service.service_type)
@@ -96,7 +96,8 @@ class OrganizationAdmin(admin.ModelAdmin):
                             for col_num in range(4, 9):
                                 ws.merge_cells(start_row=start_service_row, start_column=col_num,
                                                end_row=row_num, end_column=col_num)
-                        row_num += 1
+                        if service_index < len(services) - 1:
+                            row_num += 1
 
                     # Merge cells for the life situation columns
                     if len(services) > 0:
