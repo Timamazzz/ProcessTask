@@ -70,7 +70,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                         # Fetch related processes for the current service
                         processes = Process.objects.filter(service=service)
 
-                        for process in processes:
+                        for process_index, process in enumerate(processes):
                             ws.cell(row=row_num, column=9, value=process.identifier)
                             ws.cell(row=row_num, column=10, value=process.name)
                             ws.cell(row=row_num, column=11, value=process.status)
@@ -87,7 +87,9 @@ class OrganizationAdmin(admin.ModelAdmin):
                             ws.cell(row=row_num, column=22, value=process.related_processes)
                             ws.cell(row=row_num, column=23, value=process.group)
                             ws.cell(row=row_num, column=24, value=process.user.email)
-                            row_num += 1
+
+                            if process_index < len(processes) - 1:
+                                row_num += 1
 
                         # Merge cells for the service columns
                         if len(processes) > 0:
