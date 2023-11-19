@@ -2,7 +2,7 @@ import openpyxl
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .enums import ServiceType
+from .enums import ServiceType, ProcessStatus, ProcessGroupEnum
 from .models import CustomUser, LifeSituation, Process, Service, Organization
 from django.contrib.auth.admin import UserAdmin
 
@@ -74,7 +74,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                         for process_index, process in enumerate(processes):
                             ws.cell(row=row_num, column=9, value=process.identifier)
                             ws.cell(row=row_num, column=10, value=process.name)
-                            ws.cell(row=row_num, column=11, value=process.status)
+                            ws.cell(row=row_num, column=11, value=ProcessStatus[process.status].value)
                             ws.cell(row=row_num, column=12, value='Да' if process.is_internal_client else 'Нет')
                             ws.cell(row=row_num, column=13, value='Да' if process.is_external_client else 'Нет')
                             ws.cell(row=row_num, column=14, value=process.responsible_authority)
@@ -86,7 +86,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                             ws.cell(row=row_num, column=20, value=process.input_data)
                             ws.cell(row=row_num, column=21, value=process.output_data)
                             ws.cell(row=row_num, column=22, value=process.related_processes)
-                            ws.cell(row=row_num, column=23, value=process.group)
+                            ws.cell(row=row_num, column=23, value=ProcessGroupEnum[process.group].value)
                             ws.cell(row=row_num, column=24, value=process.user.email)
 
                             if process_index < len(processes) - 1:

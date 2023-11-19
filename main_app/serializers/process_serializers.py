@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from main_app.models import Process
-from main_app.enums import ServiceStatus
+from main_app.enums import ProcessStatus
 from main_app.utils import generate_process_identifier
 
 
@@ -33,7 +33,7 @@ class ProcessRetrieveSerializer(ProcessSerializer):
 
 
 class ProcessCreateSerializer(ProcessSerializer):
-    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ServiceStatus], required=False,
+    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ProcessStatus], required=False,
                                      label="Статус")
 
     class Meta:
@@ -51,7 +51,7 @@ class ProcessCreateSerializer(ProcessSerializer):
 
 class ProcessUpdateSerializer(ProcessSerializer):
     process_data = ProcessDataSerializer(allow_null=True)
-    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ServiceStatus], required=False,
+    status = serializers.ChoiceField(choices=[(status.name, status.value) for status in ProcessStatus], required=False,
                                      label="Статус")
 
     class Meta:

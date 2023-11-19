@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from main_app.enums import ServiceStatus, ServiceType, LifeSituationName, ProcessGroupEnum
+from main_app.enums import ProcessStatus, ServiceType, LifeSituationName, ProcessGroupEnum
 
 
 class Organization(models.Model):
@@ -112,7 +112,7 @@ class Process(models.Model):
     name = models.CharField(max_length=512, verbose_name="Название процесса", blank=True, null=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
-    status = models.CharField(max_length=512, choices=[(type.name, type.value) for type in ServiceStatus],
+    status = models.CharField(max_length=512, choices=[(type.name, type.value) for type in ProcessStatus],
                               default='in_queue', verbose_name="Статус",
                               blank=True, null=True)
     is_internal_client = models.BooleanField(default=False, verbose_name="Внутренний клиент", blank=True, null=True)

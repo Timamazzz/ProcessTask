@@ -98,7 +98,7 @@ class ServiceType(Enum):
     SERVICE = 'Сервис'
 
 
-class ServiceStatus(Enum):
+class ProcessStatus(Enum):
     IN_QUEUE = 'В очереди на исследование'
     RESEARCH_ONGOING = 'Идет исследование'
     IN_REENGINEERING_QUEUE = 'В очереди на реинжиниринг'
