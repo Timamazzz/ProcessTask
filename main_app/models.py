@@ -113,7 +113,7 @@ class Process(models.Model):
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
                                 blank=True, null=True, related_name='processes')
     status = models.CharField(max_length=512, choices=[(type.name, type.value) for type in ProcessStatus],
-                              default='in_queue', verbose_name="Статус",
+                              default='IN_QUEUE', verbose_name="Статус",
                               blank=True, null=True)
     is_internal_client = models.BooleanField(default=False, verbose_name="Внутренний клиент", blank=True, null=True)
     is_external_client = models.BooleanField(default=False, verbose_name="Внешний клиент", blank=True, null=True)
