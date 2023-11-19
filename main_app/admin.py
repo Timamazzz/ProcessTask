@@ -74,7 +74,8 @@ class OrganizationAdmin(admin.ModelAdmin):
                         for process_index, process in enumerate(processes):
                             ws.cell(row=row_num, column=9, value=process.identifier)
                             ws.cell(row=row_num, column=10, value=process.name)
-                            ws.cell(row=row_num, column=11, value=ProcessStatus[process.status].value)
+                            ws.cell(row=row_num, column=23, value=ProcessGroupEnum[
+                                process.group].value if process.group in ProcessGroupEnum.__members__ else process.group)
                             ws.cell(row=row_num, column=12, value='Да' if process.is_internal_client else 'Нет')
                             ws.cell(row=row_num, column=13, value='Да' if process.is_external_client else 'Нет')
                             ws.cell(row=row_num, column=14, value=process.responsible_authority)
