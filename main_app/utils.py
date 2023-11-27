@@ -133,7 +133,7 @@ def generate_service_identifier(life_situation):
 def generate_process_identifier(service):
     last_process = Process.objects.filter(service=service).order_by('id').last()
 
-    if last_service:
+    if last_process:
         last_identifier = extract_number_after_last_dot(last_process.identifier)
         new_identifier = last_identifier + 1
     else:
