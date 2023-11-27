@@ -89,22 +89,55 @@ class CustomModelViewSet(viewsets.ModelViewSet):
         return self.serializer_list.get(self.action, self.serializer_class)
 
 
+def extract_number_after_last_dot(s):
+    parts = s.split('.')
+
+    if len(parts) <= 1:
+        return None
+
+    last_part = parts[-1]
+
+    try:
+        result = int(last_part)
+        return result
+    except ValueError:
+        return None
+
+
 def generate_life_situation_identifier(user=None):
-    last_life_situation = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').count()
-    life_situation_count = last_life_situation + 1
-    identifier = f"{user.organization.code}.{life_situation_count}"
+    life_situation_last = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').last()
+
+    if life_situation_last:
+        last_identifier = extract_number_after_last_dot(life_situation_last.identifier)
+        new_identifier = last_identifier + 1
+    else:
+        new_identifier = 1
+
+    identifier = f"{user.organization.code}.{new_identifier}"
     return identifier
 
 
 def generate_service_identifier(life_situation):
-    last_service = Service.objects.filter(lifesituation=life_situation).order_by('-id').count()
-    service_count = last_service + 1
-    identifier = f"{life_situation.identifier}.{service_count}"
+    last_service = Service.objects.filter(lifesituation=life_situation).order_by('-id').last()
+
+    if last_service:
+        last_identifier = extract_number_after_last_dot(last_service.identifier)
+        new_identifier = last_identifier + 1
+    else:
+        new_identifier = 1
+
+    identifier = f"{life_situation.identifier}.{new_identifier}"
     return identifier
 
 
 def generate_process_identifier(service):
-    last_process = Process.objects.filter(service=service).order_by('-id').count()
-    process_count = last_process + 1
-    identifier = f"{service.identifier}.{process_count}"
+    last_process = Process.objects.filter(service=service).order_by('-id').last()
+
+    if last_service:
+        last_identifier = extract_number_after_last_dot(last_process.identifier)
+        new_identifier = last_identifier + 1
+    else:
+        new_identifier = 1
+
+    identifier = f"{service.identifier}.{new_identifier}"
     return identifier
