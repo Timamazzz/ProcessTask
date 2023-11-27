@@ -157,7 +157,7 @@ class ProcessAdmin(admin.ModelAdmin):
         'is_digital_format', 'is_non_digital_format', 'group')
     search_fields = ('name', 'service__name', 'responsible_authority', 'department')
     list_filter = ('status', 'is_internal_client', 'is_external_client', 'is_digital_format', 'is_non_digital_format',
-                   'group')
+                   'group', 'service', 'user__organization')
 
     fieldsets = (
         (None, {'fields': ('name', 'service', 'status', 'identifier')}),
