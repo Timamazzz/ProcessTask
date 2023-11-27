@@ -106,7 +106,7 @@ def extract_number_after_last_dot(s):
 
 def generate_life_situation_identifier(user=None):
     life_situation_last = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').last()
-
+    print('life_situation_last', life_situation_last)
     if life_situation_last:
         last_identifier = extract_number_after_last_dot(life_situation_last.identifier)
         new_identifier = last_identifier + 1
