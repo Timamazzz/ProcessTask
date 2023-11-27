@@ -105,7 +105,7 @@ def extract_number_after_last_dot(s):
 
 
 def generate_life_situation_identifier(user=None):
-    life_situation_last = LifeSituation.objects.filter(user__organization=user.organization).order_by('-id').last()
+    life_situation_last = LifeSituation.objects.filter(user__organization=user.organization).order_by('id').last()
     print('life_situation_last', life_situation_last)
     if life_situation_last:
         last_identifier = extract_number_after_last_dot(life_situation_last.identifier)
@@ -118,7 +118,7 @@ def generate_life_situation_identifier(user=None):
 
 
 def generate_service_identifier(life_situation):
-    last_service = Service.objects.filter(lifesituation=life_situation).order_by('-id').last()
+    last_service = Service.objects.filter(lifesituation=life_situation).order_by('id').last()
 
     if last_service:
         last_identifier = extract_number_after_last_dot(last_service.identifier)
@@ -131,7 +131,7 @@ def generate_service_identifier(life_situation):
 
 
 def generate_process_identifier(service):
-    last_process = Process.objects.filter(service=service).order_by('-id').last()
+    last_process = Process.objects.filter(service=service).order_by('id').last()
 
     if last_service:
         last_identifier = extract_number_after_last_dot(last_process.identifier)
