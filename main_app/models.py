@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
-from main_app.enums import ProcessStatus, ServiceType, LifeSituationName, ProcessGroupEnum
+from main_app.enums import ProcessStatus, ServiceType, LifeSituationName
 
 
 class Organization(models.Model):
