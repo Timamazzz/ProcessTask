@@ -152,9 +152,12 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class ProcessAdmin(admin.ModelAdmin):
+    # list_display = (
+    #     'name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
+    #     'is_digital_format', 'is_non_digital_format', 'group')
     list_display = (
         'name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
-        'is_digital_format', 'is_non_digital_format', 'group')
+        'is_digital_format', 'is_non_digital_format')
     search_fields = ('name', 'service__name', 'responsible_authority', 'department')
     # list_filter = ('status', 'is_internal_client', 'is_external_client', 'is_digital_format', 'is_non_digital_format',
     #                'group', 'service', 'user__organization')
