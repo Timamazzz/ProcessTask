@@ -62,6 +62,7 @@ class CustomOptionsMetadata(SimpleMetadata):
                 not isinstance(field, (serializers.RelatedField, serializers.ManyRelatedField)) and
                 hasattr(field, 'choices')):
             print('field', field)
+            print('field type', type(field))
             field_info['choices'] = [
                 {
                     'value': choice_value,
