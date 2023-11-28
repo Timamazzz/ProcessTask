@@ -143,7 +143,7 @@ class ProcessViewSet(CustomModelViewSet):
         'create': ProcessCreateSerializer,
         'update': ProcessUpdateSerializer,
     }
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=False, methods=['get'])
     def get_identifier(self, request):
