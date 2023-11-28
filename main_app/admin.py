@@ -156,14 +156,24 @@ class ProcessAdmin(admin.ModelAdmin):
         'name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
         'is_digital_format', 'is_non_digital_format', 'group')
     search_fields = ('name', 'service__name', 'responsible_authority', 'department')
+    # list_filter = ('status', 'is_internal_client', 'is_external_client', 'is_digital_format', 'is_non_digital_format',
+    #                'group', 'service', 'user__organization')
+
     list_filter = ('status', 'is_internal_client', 'is_external_client', 'is_digital_format', 'is_non_digital_format',
-                   'group', 'service', 'user__organization')
+                   'service', 'user__organization')
+
+    # fieldsets = (
+    #     (None, {'fields': ('name', 'service', 'status', 'identifier')}),
+    #     ('Responsibility', {'fields': ('responsible_authority', 'department')}),
+    #     ('Digital Format', {'fields': ('is_digital_format', 'is_non_digital_format', 'digital_format_link')}),
+    #     ('Data', {'fields': ('client_value', 'input_data', 'output_data', 'related_processes', 'group')}),
+    # )
 
     fieldsets = (
         (None, {'fields': ('name', 'service', 'status', 'identifier')}),
         ('Responsibility', {'fields': ('responsible_authority', 'department')}),
         ('Digital Format', {'fields': ('is_digital_format', 'is_non_digital_format', 'digital_format_link')}),
-        ('Data', {'fields': ('client_value', 'input_data', 'output_data', 'related_processes', 'group')}),
+        ('Data', {'fields': ('client_value', 'input_data', 'output_data', 'related_processes')}),
     )
 
 
