@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.http import HttpResponse
 
 from .enums import ServiceType, ProcessStatus, ProcessGroupEnum, LifeSituationName
-from .models import CustomUser, LifeSituation, Process, Service, Organization
+from .models import CustomUser, LifeSituation, Process, Service, Organization, ProcessGroup
 from django.contrib.auth.admin import UserAdmin
 
 
@@ -151,6 +151,11 @@ class ServiceAdmin(admin.ModelAdmin):
     list_filter = ('service_type', 'lifesituation', 'user')
 
 
+class ProcessGroupAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
 class ProcessAdmin(admin.ModelAdmin):
     list_display = (
         'name', 'service', 'status', 'is_internal_client', 'is_external_client', 'responsible_authority', 'department',
@@ -171,4 +176,5 @@ admin.site.register(Organization, OrganizationAdmin)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(LifeSituation, LifeSituationAdmin)
 admin.site.register(Service, ServiceAdmin)
+admin.site.register(ProcessGroup, ProcessGroupAdmin)
 admin.site.register(Process, ProcessAdmin)
