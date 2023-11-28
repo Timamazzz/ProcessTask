@@ -2,7 +2,7 @@ import openpyxl
 from django.contrib import admin
 from django.http import HttpResponse
 
-from .enums import ServiceType, ProcessStatus, ProcessGroupEnum, LifeSituationName
+from .enums import ServiceType, ProcessStatus, LifeSituationName
 from .models import CustomUser, LifeSituation, Process, Service, Organization, ProcessGroup
 from django.contrib.auth.admin import UserAdmin
 
@@ -87,7 +87,7 @@ class OrganizationAdmin(admin.ModelAdmin):
                             ws.cell(row=row_num, column=21, value=process.output_data)
                             ws.cell(row=row_num, column=22, value=process.related_processes)
                             try:
-                                ws.cell(row=row_num, column=23, value=ProcessGroupEnum[process.group].value)
+                                ws.cell(row=row_num, column=23, value=process.group.name)
                             except KeyError:
                                 ws.cell(row=row_num, column=23, value='')
                             ws.cell(row=row_num, column=24, value=process.user.email)
