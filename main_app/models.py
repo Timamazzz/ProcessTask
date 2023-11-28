@@ -140,8 +140,7 @@ class Process(models.Model):
     output_data = models.TextField(verbose_name="Данные на выходе", blank=True, null=True)
     related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
-    #group = models.ForeignKey(ProcessGroup, on_delete=models.SET_NULL, null=True, blank=True,
-                              #verbose_name="Группа процессов")
+    group = models.ForeignKey(ProcessGroup, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Группа процессов")
 
     class Meta:
         verbose_name = "Процесс"
