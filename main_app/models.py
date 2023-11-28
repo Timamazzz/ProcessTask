@@ -108,6 +108,13 @@ class Service(models.Model):
         return self.identifier or "None"
 
 
+class ProcessGroup(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name="Название")
+
+    def __str__(self):
+        return self.name
+
+
 class Process(models.Model):
     name = models.CharField(max_length=512, verbose_name="Название процесса", blank=True, null=True)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, verbose_name="Услуга",
@@ -133,8 +140,8 @@ class Process(models.Model):
     output_data = models.TextField(verbose_name="Данные на выходе", blank=True, null=True)
     related_processes = models.TextField(verbose_name="Связанные процессы", blank=True, null=True)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Пользователь", blank=True, null=True, )
-    group = models.CharField(max_length=255, choices=[(group.name, group.value) for group in ProcessGroupEnum],
-                             verbose_name="Группа процессов", blank=True, null=True)
+    group = models.ForeignKey(ProcessGroup, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name="Группа процессов")
 
     class Meta:
         verbose_name = "Процесс"
