@@ -5,6 +5,7 @@ from rest_framework.metadata import SimpleMetadata
 from collections import OrderedDict
 from django.utils.encoding import force_str
 from rest_framework import serializers, viewsets
+from rest_framework.relations import HyperlinkedRelatedField, PrimaryKeyRelatedField, RelatedField, ManyRelatedField
 
 from main_app.models import LifeSituation, Service, Process
 
@@ -62,9 +63,9 @@ class CustomOptionsMetadata(SimpleMetadata):
         print('field', field)
         print('field type', type(field))
 
-        if (not field_info.get('read_only') and
-                not isinstance(field, (serializers.RelatedField, serializers.ManyRelatedField)) and
-                hasattr(field, 'choices')):
+        if (not field_info.get('read_only')
+                and (not isinstance(field, (serializers.RelatedField, serializers.ManyRelatedField)) and hasattr(field, 'choices'))
+                or isinstance(field, (HyperlinkedRelatedField, PrimaryKeyRelatedField, RelatedField, ManyRelatedField))):
             field_info['choices'] = [
                 {
                     'value': choice_value,
