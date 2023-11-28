@@ -111,6 +111,10 @@ class Service(models.Model):
 class ProcessGroup(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name="Название")
 
+    class Meta:
+        verbose_name = "Группа процессов"
+        verbose_name_plural = "Группы процессов"
+
     def __str__(self):
         return self.name
 
