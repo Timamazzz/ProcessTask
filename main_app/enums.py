@@ -106,13 +106,3 @@ class ProcessStatus(Enum):
     REENGINEERING_COMPLETED = 'Прошел реинжиниринг'
     SENT_FOR_CERTIFICATION = 'Отправлен на сертификацию'
     CERTIFIED = 'Сертифицирован'
-
-
-class ProcessGroupEnum(Enum):
-    PUBLIC_SERVICES = 'Предоставление государственных услуг'
-    INFORMATION_ACCESS = 'Обеспечение доступа к информации о деятельности'
-    STATE_SUPPORT_MEASURES = 'Предоставление мер государственной поддержки'
-    INTERNAL_CLIENT_RELATIONS = 'Организация отношений с внутренним клиентом'
-    STATE_CONTROL_SUPERVISION = 'Государственный контроль и надзор'
-    OTHER_FUNCTIONS = 'Иные функции (обеспечение деятельности органа власти)'
-    REQUESTS_AND_APPEALS = 'Рассмотрение обращений и запросов'
