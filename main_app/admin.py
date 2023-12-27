@@ -62,7 +62,10 @@ class OrganizationAdmin(admin.ModelAdmin):
                     for service_index, service in enumerate(services):
                         ws.cell(row=row_num, column=4, value=service.identifier)
                         ws.cell(row=row_num, column=5, value=service.name)
-                        ws.cell(row=row_num, column=6, value=ServiceType[service.service_type].value)
+                        try:
+                            ws.cell(row=row_num, column=6, value=ServiceType[service.service_type].value)
+                        except KeyError:
+                            ws.cell(row=row_num, column=6, value='')
                         ws.cell(row=row_num, column=7, value=service.regulating_act)
                         ws.cell(row=row_num, column=8, value=service.user.email)
 
@@ -74,7 +77,10 @@ class OrganizationAdmin(admin.ModelAdmin):
                         for process_index, process in enumerate(processes):
                             ws.cell(row=row_num, column=9, value=process.identifier)
                             ws.cell(row=row_num, column=10, value=process.name)
-                            ws.cell(row=row_num, column=11, value=ProcessStatus[process.status].value)
+                            try:
+                                ws.cell(row=row_num, column=11, value=ProcessStatus[process.status].value)
+                            except KeyError:
+                                ws.cell(row=row_num, column=11, value='')
                             ws.cell(row=row_num, column=12, value='Да' if process.is_internal_client else 'Нет')
                             ws.cell(row=row_num, column=13, value='Да' if process.is_external_client else 'Нет')
                             ws.cell(row=row_num, column=14, value=process.responsible_authority)
